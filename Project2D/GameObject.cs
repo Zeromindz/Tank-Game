@@ -16,8 +16,9 @@ namespace Project2D
 		protected List<GameObject> m_Children = new List<GameObject>();
 		
 		//Matrices
-		protected Matrix3 m_LocalTransform;
+		protected Matrix3 m_LocalTransform = new Matrix3(true);
 		protected Matrix3 m_GlobalTransfrom;
+
 
 		//Drawing
 		protected Image m_Image;
@@ -34,8 +35,16 @@ namespace Project2D
 			m_Texture = LoadTextureFromImage(m_Image);
 
 			//starting position
+			m_LocalTransform.m1 = 1;
+			m_LocalTransform.m2 = 0;
+			m_LocalTransform.m3 = 0;
+			m_LocalTransform.m4 = 0;
+			m_LocalTransform.m5 = 1;
+			m_LocalTransform.m6 = 0;
 			m_LocalTransform.m7 = 100;
 			m_LocalTransform.m8 = 200;
+			m_LocalTransform.m9 = 1;
+			
 		}
 
 		public void SetParent(GameObject _parent)
@@ -59,7 +68,7 @@ namespace Project2D
 		//We want the derived class to override this function
 		public virtual void Update(float _deltatime)
 		{
-
+			
 		}
 
 		public void UpdateTransforms()
@@ -85,6 +94,7 @@ namespace Project2D
 		public void Draw()
 		{
 			Renderer.DrawTexture(m_Texture, m_GlobalTransfrom, RLColor.WHITE.ToColor());
+
 		}
 	}
 }

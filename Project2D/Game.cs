@@ -12,40 +12,42 @@ namespace Project2D
 {
     class Game
     {
-        Stopwatch stopwatch = new Stopwatch();
 
-        private long currentTime = 0;
+		#region Timer
+        Stopwatch stopwatch = new Stopwatch();
+		private long currentTime = 0;
         private long lastTime = 0;
         private float timer = 0;
         private int fps = 1;
         private int frames;
 
         private float deltaTime = 0.005f;
-
-        Image logo;
-        Texture2D texture;
+		#endregion
 
 		GameObject testObject;
 
         public Game()
         {
+
         }
 
         public void Init()
         {
-            stopwatch.Start();
+			#region Stopwatch
+			stopwatch.Start();
             lastTime = stopwatch.ElapsedMilliseconds;
 
             if (Stopwatch.IsHighResolution)
             {
                 Console.WriteLine("Stopwatch high-resolution frequency: {0} ticks per second", Stopwatch.Frequency);
             }
+			#endregion
 
 			//Initialize objects here
-            //logo = LoadImage("../Images/Car_Red.png");
-            //texture = LoadTextureFromImage(logo);
+			//logo = LoadImage("../Images/Car_Red.png");
+			//texture = LoadTextureFromImage(logo);
 
-			testObject = new GameObject("../Images/Car_Red.png");
+			testObject = new Tank("../Images/Car_Red.png");
 			
 			
 		}
@@ -56,7 +58,8 @@ namespace Project2D
 
         public void Update()
         {
-            lastTime = currentTime;
+			#region DeltaTime
+			lastTime = currentTime;
             currentTime = stopwatch.ElapsedMilliseconds;
             deltaTime = (currentTime - lastTime) / 1000.0f;
             timer += deltaTime;
@@ -67,15 +70,15 @@ namespace Project2D
                 timer -= 1;
             }
             frames++;
-
+			#endregion
 
 			//Update game objects here 
 
-			//testObject.Update(deltaTime);
-			//testObject.UpdateTransforms();
+			testObject.Update(deltaTime);
+			testObject.UpdateTransforms();
 		}
 
-        public void Draw()
+		public void Draw()
         {
             BeginDrawing();
 

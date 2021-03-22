@@ -45,13 +45,13 @@ static public class Renderer
 	//--------------------------------------------------------------
 	public static Colour ToColor(this RLColor color)
 	{
-		Colour col = new Colour();
-		col.SetRed(color.r);
-		col.SetGreen(color.g);
-		col.SetBlue(color.b);
-		col.SetAlpha(color.a);
+		//Colour col = new Colour();
+		//col.SetRed(color.r);
+		//col.SetGreen(color.g);
+		//col.SetBlue(color.b);
+		//col.SetAlpha(color.a);
 
-		return col;
+		return new Colour(color.r, color.g, color.b, color.a);
 	}
 
 	//--------------------------------------------------------------
