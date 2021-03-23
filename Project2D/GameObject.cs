@@ -24,6 +24,8 @@ namespace Project2D
 		protected Image m_Image;
 		protected Texture2D m_Texture;
 
+		//Collision
+		protected float m_ColRadius = 0.0f;
 		// m1 - m4 - m7
 		// m2 - m5 - m8
 		// m3 - m6 - m9
@@ -34,17 +36,8 @@ namespace Project2D
 			m_Image = LoadImage(_fileName);
 			m_Texture = LoadTextureFromImage(m_Image);
 
-			//starting position
-			m_LocalTransform.m1 = 1;
-			m_LocalTransform.m2 = 0;
-			m_LocalTransform.m3 = 0;
-			m_LocalTransform.m4 = 0;
-			m_LocalTransform.m5 = 1;
-			m_LocalTransform.m6 = 0;
-			m_LocalTransform.m7 = 100;
-			m_LocalTransform.m8 = 200;
-			m_LocalTransform.m9 = 1;
-			
+			m_ColRadius = m_Image.width * 0.5f;
+
 		}
 
 		public void SetParent(GameObject _parent)

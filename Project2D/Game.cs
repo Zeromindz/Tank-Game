@@ -24,7 +24,9 @@ namespace Project2D
         private float deltaTime = 0.005f;
 		#endregion
 
-		GameObject testObject;
+		private Tank m_Tank;
+		private Turret m_Turret;
+		private Level m_Level;
 
         public Game()
         {
@@ -47,9 +49,8 @@ namespace Project2D
 			//logo = LoadImage("../Images/Car_Red.png");
 			//texture = LoadTextureFromImage(logo);
 
-			testObject = new Tank("../Images/Car_Red.png");
-			
-			
+			m_Level = new Level();
+
 		}
 
         public void Shutdown()
@@ -74,8 +75,11 @@ namespace Project2D
 
 			//Update game objects here 
 
-			testObject.Update(deltaTime);
-			testObject.UpdateTransforms();
+			m_Level.Update(deltaTime);
+			m_Level.UpdateTransforms();
+
+			//Check collision aafter all objects have been updated
+			CollisionManager.CheckCollision();
 		}
 
 		public void Draw()
@@ -87,8 +91,7 @@ namespace Project2D
 			//Draw game objects here
             DrawText(fps.ToString(), 10, 10, 14, RLColor.RED);
 
-			testObject.Draw();
-			//DrawTexture(texture, GetScreenWidth() / 2 - texture.width / 2, GetScreenHeight() / 2 - texture.height / 2, RLColor.WHITE);
+			m_Level.Draw();
 
 			EndDrawing();
         }
