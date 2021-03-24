@@ -26,6 +26,7 @@ namespace Project2D
 
 		//Collision
 		protected float m_ColRadius = 0.0f;
+		public Vector2 m_PreviousPos;
 		// m1 - m4 - m7
 		// m2 - m5 - m8
 		// m3 - m6 - m9
@@ -82,12 +83,28 @@ namespace Project2D
 			{
 				child.UpdateTransforms();
 			}
+			//after computing position for the frame, store where we are
+			//m_PreviousPos = GetPosition() - m_Parent.GetPosition();
 		}
 
-		public void Draw()
+		public virtual void Draw()
 		{
 			Renderer.DrawTexture(m_Texture, m_GlobalTransfrom, RLColor.WHITE.ToColor());
 
 		}
+
+		
+		public virtual void OnCollision(GameObject _otherObj)
+		{
+			
+		}
+
+		public Vector2 GetGlobalPosition()
+		{
+			return new Vector2(m_GlobalTransfrom.m7, m_GlobalTransfrom.m8);
+		}
+		
+
+
 	}
 }

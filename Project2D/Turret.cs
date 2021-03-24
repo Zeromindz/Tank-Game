@@ -11,32 +11,36 @@ namespace Project2D
 {
 	class Turret : GameObject
 	{
-		//Tank m_Tank = null;
-		//Vector2 m_MousePosition;
+		Vector2 currentGlobalPos;
+		Vector2 targetDirection;
+		Vector2 m_MousePosition;
 		float m_TurretTurnSpeed = 5;
 		
 
 		public Turret(string _fileName) : base(_fileName)
 		{
 
-			//m_MousePosition = GetMousePosition().ToVector2();
 
-			
-			
 		}
 
 		public override void Update(float _deltatime)
 		{
-			float m_Rotation = 0.0f;
+			
+			m_MousePosition = GetMousePosition().ToVector2();
+			currentGlobalPos = GetGlobalPosition();
+			targetDirection = m_MousePosition - currentGlobalPos;
+			targetDirection.Normalise();
 
-			if (IsKeyDown(KeyboardKey.KEY_RIGHT))
-			{
-				m_Rotation += m_TurretTurnSpeed * _deltatime;
-			}
-			if (IsKeyDown(KeyboardKey.KEY_LEFT))
-			{
-				m_Rotation -= m_TurretTurnSpeed * _deltatime;
-			}
+			float rotation = 0.0f;
+
+			//if (IsKeyDown(KeyboardKey.KEY_RIGHT))
+			//{
+			//	rotation += m_TurretTurnSpeed * _deltatime;
+			//}
+			//if (IsKeyDown(KeyboardKey.KEY_LEFT))
+			//{
+			//	rotation -= m_TurretTurnSpeed * _deltatime;
+			//}
 
 			if (IsKeyDown(KeyboardKey.KEY_SPACE))
 			{
@@ -44,11 +48,19 @@ namespace Project2D
 			}
 
 			Matrix3 rotationMatrix = new Matrix3();
-			rotationMatrix.SetRotateZ(m_Rotation);
+			rotationMatrix.SetRotateZ(rotation);
 
 			m_LocalTransform = m_LocalTransform * rotationMatrix;
 
 			base.Update(_deltatime);
 		}
+
+		public override void Draw()
+		{
+			DrawLine((int)currentGlobalPos.x, (int)currentGlobalPos.y, (int)m_MousePosition.x, (int)m_MousePosition.y, RLColor.RED);
+			base.Draw();
+		}
+
+		
 	}
 }

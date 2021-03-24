@@ -24,8 +24,8 @@ namespace Project2D
         private float deltaTime = 0.005f;
 		#endregion
 
-		private Tank m_Tank;
-		private Turret m_Turret;
+		//private Tank m_Tank;
+		//private Turret m_Turret;
 		private Level m_Level;
 
         public Game()

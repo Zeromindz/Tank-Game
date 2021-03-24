@@ -11,24 +11,30 @@ namespace Project2D
 {
 	class Level : GameObject
 	{
-		private Tank m_Tank = null;
+		private Tank m_Tank1 = null;
+		private Tank m_Tank2 = null;
 		private Turret m_Turret = null;
 		private Wall m_Wall = null;
 
 		public Level() : base("")
 		{
-			m_Tank = new Tank("../Images/Car_v3.png");
+			m_Tank1 = new Tank("../Images/Car_v3.png", 500, 500);
+			m_Tank2 = new Tank("../Images/Car_v3.png", 200, 200);
 			m_Turret = new Turret("../Images/Gun_v2.png");
 			m_Wall = new Wall();
 
-			m_Tank.SetParent(this);
-			m_Turret.SetParent(m_Tank);
+			m_Tank1.SetParent(this);
+			m_Tank2.SetParent(this);
+			m_Turret.SetParent(m_Tank1);
 		}
 
 		public override void Update(float _deltatime)
 		{
-			m_Tank.Update(_deltatime);
-			m_Tank.UpdateTransforms();
+			m_Tank1.Update(_deltatime);
+			m_Tank1.UpdateTransforms();
+
+			//m_Tank2.Update(_deltatime);
+			//m_Tank2.UpdateTransforms();
 
 			m_Turret.Update(_deltatime);
 			m_Turret.UpdateTransforms();
@@ -38,7 +44,8 @@ namespace Project2D
 
 		public void Draw()
 		{
-			m_Tank.Draw();
+			m_Tank1.Draw();
+			m_Tank2.Draw();
 			m_Turret.Draw();
 			m_Wall.Draw();
 		}

@@ -19,18 +19,22 @@ namespace Project2D
 		{
 			foreach(GameObject obj1 in m_ObjectList)
 			{
-				foreach(GameObject obj2 in m_ObjectList)
+				foreach (GameObject obj2 in m_ObjectList)
 				{
 					//Dont check if objects are the same
 					if (obj1 == obj2)
 						continue;
-					
+
 					//Test collision here
 					// V2 diff = obj1.position - obj2.pos
 					//float dist = diff.magnitude
 					//floaat combinedradius = obj1.getradius() + obj2.getradius()
 					//if dist < combinedradius
-					//{resolve collision
+					{
+						//resolve collision
+						//float penetration = combinedRadius
+						obj1.OnCollision(obj2);
+					}
 				}
 			}
 		}
