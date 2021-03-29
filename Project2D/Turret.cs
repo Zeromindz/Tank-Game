@@ -15,11 +15,12 @@ namespace Project2D
 		Vector2 targetDirection;
 		Vector2 m_MousePosition;
 		float m_TurretTurnSpeed = 5;
+		bool m_FiringGun = false;
 		
 
 		public Turret(string _fileName) : base(_fileName)
 		{
-
+			SetAlive(true);
 
 		}
 
@@ -33,18 +34,20 @@ namespace Project2D
 
 			float rotation = 0.0f;
 
-			//if (IsKeyDown(KeyboardKey.KEY_RIGHT))
-			//{
-			//	rotation += m_TurretTurnSpeed * _deltatime;
-			//}
-			//if (IsKeyDown(KeyboardKey.KEY_LEFT))
-			//{
-			//	rotation -= m_TurretTurnSpeed * _deltatime;
-			//}
+			if (IsKeyDown(KeyboardKey.KEY_RIGHT))
+			{
+				rotation += m_TurretTurnSpeed * _deltatime;
+			}
+			if (IsKeyDown(KeyboardKey.KEY_LEFT))
+			{
+				rotation -= m_TurretTurnSpeed * _deltatime;
+			}
 
-			if (IsKeyDown(KeyboardKey.KEY_SPACE))
+			m_FiringGun = IsKeyDown(KeyboardKey.KEY_SPACE);
+			if (m_FiringGun)
 			{
 				//Fire Gun
+				
 			}
 
 			Matrix3 rotationMatrix = new Matrix3();
@@ -57,7 +60,9 @@ namespace Project2D
 
 		public override void Draw()
 		{
+			
 			DrawLine((int)currentGlobalPos.x, (int)currentGlobalPos.y, (int)m_MousePosition.x, (int)m_MousePosition.y, RLColor.RED);
+			
 			base.Draw();
 		}
 

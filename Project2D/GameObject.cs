@@ -25,8 +25,13 @@ namespace Project2D
 		protected Texture2D m_Texture;
 
 		//Collision
+		protected bool m_EnabledCollision = true;
+		protected Vector2 m_Min = new Vector2(0, 0);
+		protected Vector2 m_Max = new Vector2(0, 0);
 		protected float m_ColRadius = 0.0f;
 		public Vector2 m_PreviousPos;
+
+		bool m_Alive;
 		// m1 - m4 - m7
 		// m2 - m5 - m8
 		// m3 - m6 - m9
@@ -37,7 +42,13 @@ namespace Project2D
 			m_Image = LoadImage(_fileName);
 			m_Texture = LoadTextureFromImage(m_Image);
 
-			m_ColRadius = m_Image.width * 0.5f;
+			m_Min.x = (float)-(m_Texture.width * 0.5);
+			m_Min.y = (float)-(m_Texture.width * 0.5);
+
+			m_Max.x = (float)(m_Texture.width * 0.5);
+			m_Max.y = (float)(m_Texture.width * 0.5);
+
+			m_ColRadius = m_Image.height * 0.5f;
 
 		}
 
@@ -83,12 +94,23 @@ namespace Project2D
 			{
 				child.UpdateTransforms();
 			}
+
+			if (m_Parent != null)
+				m_PreviousPos = GetGlobalPosition() - m_Parent.GetGlobalPosition();
+			else
+				m_PreviousPos = GetGlobalPosition();
+				
 			//after computing position for the frame, store where we are
 			//m_PreviousPos = GetPosition() - m_Parent.GetPosition();
 		}
 
 		public virtual void Draw()
 		{
+			if(!m_Alive)
+			{
+				return;
+			}
+
 			Renderer.DrawTexture(m_Texture, m_GlobalTransfrom, RLColor.WHITE.ToColor());
 
 		}
@@ -104,7 +126,29 @@ namespace Project2D
 			return new Vector2(m_GlobalTransfrom.m7, m_GlobalTransfrom.m8);
 		}
 		
+		public bool GetCollisionEnabled()
+		{
+			return m_EnabledCollision;
+		}
 
+		public Vector2 GetMin()
+		{
+			return m_Min;
+		}
 
+		public Vector2 GetMax()
+		{
+			return m_Max;
+		}
+
+		public bool GetAlive()
+		{
+			return m_Alive;
+		}
+
+		public void SetAlive(bool _alive)
+		{
+			m_Alive = _alive;
+		}
 	}
 }

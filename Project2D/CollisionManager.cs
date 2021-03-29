@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MathLibrary;
 
 namespace Project2D
 {
@@ -34,6 +35,20 @@ namespace Project2D
 						//resolve collision
 						//float penetration = combinedRadius
 						obj1.OnCollision(obj2);
+
+						Vector2 obj1Min = obj1.GetMin() + obj1.GetGlobalPosition();
+						Vector2 obj1Max = obj1.GetMax() + obj1.GetGlobalPosition();
+						Vector2 obj2Min = obj1.GetMin() + obj2.GetGlobalPosition();
+						Vector2 obj2Max = obj1.GetMax() + obj2.GetGlobalPosition();
+
+						if(obj1Max.x > obj2Min.x &&
+							obj1Max.y > obj2Min.y &&
+							obj1Min.x < obj2Max.x &&
+							obj1Min.y < obj2Max.y)
+						{
+							obj1.OnCollision(obj2);
+						}
+
 					}
 				}
 			}
