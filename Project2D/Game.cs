@@ -24,8 +24,6 @@ namespace Project2D
         private float deltaTime = 0.005f;
 		#endregion
 
-		//private Tank m_Tank;
-		//private Turret m_Turret;
 		private Level m_Level;
 
         public Game()
@@ -77,8 +75,8 @@ namespace Project2D
 
 			m_Level.Update(deltaTime);
 			m_Level.UpdateTransforms();
-
-			//Check collision aafter all objects have been updated
+			
+			//Check collision after all objects have been updated
 			CollisionManager.CheckCollision();
 		}
 
@@ -95,6 +93,6 @@ namespace Project2D
 
 			EndDrawing();
         }
-
+		
     }
 }

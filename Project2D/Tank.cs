@@ -13,14 +13,17 @@ namespace Project2D
 	{
 
 		private Vector2 m_Velocity = new Vector2(0, 0);
-		Vector2 m_CurrentPosition = new Vector2(0, 0);
+		Vector2 m_MovementVector;
+		//Vector2 m_CurrentPosition = new Vector2(0, 0);
 
+		float m_Rotation = 0.0f;
 		float m_TurnSpeed = 5.0f;
 
 		float m_Speed = 30f;
 		float m_CurrentVelocity = 0.0f;
 		float m_MaxVelocity = 400.0f;
 		float m_AccelerationRate = 20.0f;
+		float m_CurrentForwardDirection = 1;
 
 		bool m_IsAccelerating = false;
 
@@ -34,18 +37,15 @@ namespace Project2D
 
 		}
 
-		
-
 		public override void Update(float _deltaTime)
 		{
-			//Vector2 storing global position
+
 			//Vector2 being set to the magnitude of V2Velocity
-			m_CurrentPosition = GetGlobalPosition();
 			m_CurrentVelocity = m_Velocity.Magnitude();
+			//Tank rotation
+			m_Rotation = 0.0f;
 
-			float rotation = 0.0f;
-
-			//Console.WriteLine("current velocity = " + m_Velocity.y);
+			//Console.WriteLine("Rotation = " + m_Rotation);
 			
 			//Set is accellerating to true with w and s key presses
 			m_IsAccelerating = (IsKeyDown(KeyboardKey.KEY_W)) || (IsKeyDown(KeyboardKey.KEY_S));
@@ -54,27 +54,29 @@ namespace Project2D
 			if (IsKeyDown(KeyboardKey.KEY_W))
 			{
 				m_Velocity.y -= m_AccelerationRate * m_Speed * _deltaTime;
+				m_CurrentForwardDirection = 1;
 			}
 			if (IsKeyDown(KeyboardKey.KEY_S))
 			{
 				m_Velocity.y += m_AccelerationRate * m_Speed * _deltaTime;
+				m_CurrentForwardDirection = -1;
 			}
 
 			//rotate turret
 			if (IsKeyDown(KeyboardKey.KEY_D))
 			{
-				rotation += m_TurnSpeed * _deltaTime;
+				m_Rotation += m_TurnSpeed * _deltaTime;
 			}
 			if (IsKeyDown(KeyboardKey.KEY_A))
 			{
-				rotation -= m_TurnSpeed * _deltaTime;
+				m_Rotation -= m_TurnSpeed * _deltaTime;
 			}
 
 			//if not accelerating and has velocity > 0, lerp from current y velocity to 0 over deltatime
 			if(!m_IsAccelerating && m_CurrentVelocity > 0)
 			{
 				m_Velocity.y = Lerp(m_Velocity.y, 0, _deltaTime);
-
+			
 				//Console.WriteLine("Decelerating");
 			}
 			//cap velocity at max by multiplying y velocity by (max / current)
@@ -82,8 +84,6 @@ namespace Project2D
 		    {
 		    	m_Velocity.y *= m_MaxVelocity / m_CurrentVelocity;
 		    }
-
-			
 
 			//Add velocity to our local transform
 			//avoid accessing localTransform's elements.
@@ -94,11 +94,16 @@ namespace Project2D
 
 			//same with rotation
 			Matrix3 rotationMatrix = new Matrix3();
-			rotationMatrix.SetRotateZ(rotation);
+			rotationMatrix.SetRotateZ(m_Rotation);
 			
 			m_LocalTransform = m_LocalTransform * rotationMatrix;
 
 			base.Update(_deltaTime);
+		}
+
+		public void Move(Vector2 _movementVector)
+		{
+			m_MovementVector = _movementVector;
 		}
 
 		
@@ -111,32 +116,36 @@ namespace Project2D
 
 		public override void OnCollision(GameObject _otherObj)
 		{
-			//Push objects apart
+			Console.WriteLine("Colliding");
 
+			//_otherObj.SetAlive(false);
+			//Push objects apart
 			m_LocalTransform.m7 = m_PreviousPos.x;
 			m_LocalTransform.m8 = m_PreviousPos.y;
-			UpdateTransforms();
-
+			
 			//Circle Collision
 			Vector2 normal = _otherObj.GetGlobalPosition() - GetGlobalPosition();
 			normal.Normalise();
 
 			//Calculate reflection
 			Vector2 reflection = -2.0f * m_Velocity.Dot(normal) * normal + m_Velocity;
+			
+			//TODO Change Direction
+			m_Velocity = new Vector2(reflection.x, 0);
 
-			//Change Direction
-			m_Velocity = reflection;
-
+			UpdateTransforms();
 			base.OnCollision(_otherObj);
 
-			Console.WriteLine("Colliding");
 		}
 
 		public override void Draw()
 		{
 			//Draw player object collider 
-			DrawCircleV(new RLVector2 { x = m_CurrentPosition.x, y = m_CurrentPosition.y }, m_ColRadius, RLColor.BLUE);
+
 			base.Draw();
+
+			//DrawCircleV(new RLVector2 { x = m_CurrentPosition.x, y = m_CurrentPosition.y }, m_ColRadius, RLColor.BLUE);
+			
 		}
 	}
 }

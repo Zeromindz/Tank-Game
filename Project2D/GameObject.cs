@@ -42,12 +42,14 @@ namespace Project2D
 			m_Image = LoadImage(_fileName);
 			m_Texture = LoadTextureFromImage(m_Image);
 
+			//Set up bounds as image dimensions
 			m_Min.x = (float)-(m_Texture.width * 0.5);
-			m_Min.y = (float)-(m_Texture.width * 0.5);
-
+			m_Min.y = (float)-(m_Texture.height * 0.5);
+			//
 			m_Max.x = (float)(m_Texture.width * 0.5);
-			m_Max.y = (float)(m_Texture.width * 0.5);
+			m_Max.y = (float)(m_Texture.height * 0.5);
 
+			
 			m_ColRadius = m_Image.height * 0.5f;
 
 		}
@@ -78,6 +80,17 @@ namespace Project2D
 
 		public void UpdateTransforms()
 		{
+			if(!m_Alive)
+			{
+				return;
+			}
+
+			//after computing position for the frame, store where we are
+			if (m_Parent != null)
+				m_PreviousPos = GetGlobalPosition() - m_Parent.GetGlobalPosition();
+			else
+				m_PreviousPos = GetGlobalPosition();
+			
 			//the parent object's global position multiplied by the offset of the child object gives us the childs global position
 			//if there's no parent, this object's local position is it's global position
 			if (m_Parent != null)
@@ -88,20 +101,12 @@ namespace Project2D
 			{
 				m_GlobalTransfrom = m_LocalTransform;
 			}
-
 			//loop through all child objects and update their transforms
 			foreach(GameObject child in m_Children)
 			{
 				child.UpdateTransforms();
 			}
-
-			if (m_Parent != null)
-				m_PreviousPos = GetGlobalPosition() - m_Parent.GetGlobalPosition();
-			else
-				m_PreviousPos = GetGlobalPosition();
-				
-			//after computing position for the frame, store where we are
-			//m_PreviousPos = GetPosition() - m_Parent.GetPosition();
+			
 		}
 
 		public virtual void Draw()
@@ -112,10 +117,10 @@ namespace Project2D
 			}
 
 			Renderer.DrawTexture(m_Texture, m_GlobalTransfrom, RLColor.WHITE.ToColor());
-
+			
 		}
-
-		
+						 
+						  
 		public virtual void OnCollision(GameObject _otherObj)
 		{
 			
@@ -139,6 +144,16 @@ namespace Project2D
 		public Vector2 GetMax()
 		{
 			return m_Max;
+		}
+
+		public float GetRadius()
+		{
+			return m_ColRadius;
+		}
+
+		public void SetRadius(float _radius)
+		{
+			m_ColRadius = _radius;
 		}
 
 		public bool GetAlive()

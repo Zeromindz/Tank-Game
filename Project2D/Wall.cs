@@ -11,17 +11,19 @@ namespace Project2D
 {
 	class Wall : GameObject
 	{
-		Rectangle rec = new Rectangle();
+		Rectangle rec;
 
 		private float m_Height;
 		private float m_Width;
-		Vector2 m_CurrentPosition;
+		Vector2 m_Position = new Vector2(0, 0);
 
-		public Wall(float _startingPosX, float _startingPosY, float _height, float _width) : base("")
+		
+
+		public Wall(string _fileName, float _startingPosX, float _startingPosY, float _height, float _width) : base(_fileName)
 		{
 			//m_CurrentPosition = GetGlobalPosition();
-			m_EnabledCollision = true;
 			SetAlive(true);
+			m_EnabledCollision = true;
 
 			//starting position
 			m_LocalTransform.m7 = _startingPosX;
@@ -30,16 +32,28 @@ namespace Project2D
 			m_Height = _height;
 			m_Width = _width;
 
-			rec.height = m_Height;
-			rec.width = m_Width;
+			//rec = new Rectangle {x = _startingPosX, y = _startingPosY, height = _height, width = _width};
+			
+		}
+
+		public override void Update(float _deltatime)
+		{
+
+			base.Update(_deltatime);
+		}
+		public override void OnCollision(GameObject _otherObj)
+		{
+			
+
+			base.OnCollision(_otherObj);
 		}
 
 		public override void Draw()
 		{
+			//DrawRectangleRec(rec, Fade(RLColor.GREEN, 0.5f));
 			
-			BeginDrawing();
-			DrawRectangleRec(rec, Fade(RLColor.GREEN, 0.5f));
 			base.Draw();
+			DrawCircleV(new RLVector2 { x = m_LocalTransform.m7, y = m_LocalTransform.m8 }, m_ColRadius, RLColor.BLUE);
 		}
 	}
 }

@@ -26,27 +26,36 @@ namespace Project2D
 					if (obj1 == obj2)
 						continue;
 
-					//Test collision here
-					// V2 diff = obj1.position - obj2.pos
-					//float dist = diff.magnitude
-					//floaat combinedradius = obj1.getradius() + obj2.getradius()
-					//if dist < combinedradius
+					Vector2 diff = obj1.GetGlobalPosition() - obj2.GetGlobalPosition();
+					float dist = diff.Magnitude();
+					float combinedRadius = obj1.GetRadius() + obj2.GetRadius();
+
+					//Console.WriteLine("distance = " + dist);
+					
+					//Test Sphere collision here
+					if (dist < combinedRadius)
 					{
 						//resolve collision
-						//float penetration = combinedRadius
+						//vector
 						obj1.OnCollision(obj2);
+
+						//Console.WriteLine("Obj " + obj1 + " colliding with " + obj2);
 
 						Vector2 obj1Min = obj1.GetMin() + obj1.GetGlobalPosition();
 						Vector2 obj1Max = obj1.GetMax() + obj1.GetGlobalPosition();
 						Vector2 obj2Min = obj1.GetMin() + obj2.GetGlobalPosition();
 						Vector2 obj2Max = obj1.GetMax() + obj2.GetGlobalPosition();
 
-						if(obj1Max.x > obj2Min.x &&
-							obj1Max.y > obj2Min.y &&
-							obj1Min.x < obj2Max.x &&
-							obj1Min.y < obj2Max.y)
+						
+						if(obj1Max.x > obj2Min.x && obj1Max.y > obj2Min.y &&
+							obj1Min.x < obj2Max.x && obj1Min.y < obj2Max.y)
 						{
+							
 							obj1.OnCollision(obj2);
+
+							
+							
+							return;
 						}
 
 					}
