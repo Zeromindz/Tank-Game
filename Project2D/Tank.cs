@@ -141,7 +141,7 @@ namespace Project2D
 			//Draw player object collider 
 			DrawText("X: " + m_Velocity.x.ToString(), (int)GetGlobalPosition().x - 50, (int)GetGlobalPosition().y + 100, 16, RLColor.RED);
 			DrawText("Y: " + m_Velocity.y.ToString(), (int)GetGlobalPosition().x + 50, (int)GetGlobalPosition().y + 100, 16, RLColor.RED);
-			DrawCircleV(new RLVector2 { x = m_CurrentPosition.x, y = m_CurrentPosition.y }, m_ColRadius, RLColor.BLUE);
+			//DrawCircleV(new RLVector2 { x = m_CurrentPosition.x, y = m_CurrentPosition.y }, m_ColRadius, RLColor.BLUE);
 
 			base.Draw();
 		}

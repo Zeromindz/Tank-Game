@@ -60,10 +60,10 @@ namespace Project2D
 		{
 			//DrawRectangleRec(rec, Fade(RLColor.GREEN, 0.5f));
 			
-			base.Draw();
 			
 			if(GetAlive() == true)
 				DrawCircleV(new RLVector2 { x = m_LocalTransform.m7, y = m_LocalTransform.m8 }, m_ColRadius, RLColor.BLUE);
+			base.Draw();
 			
 
 		}
