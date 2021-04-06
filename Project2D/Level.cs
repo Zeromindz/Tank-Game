@@ -38,7 +38,7 @@ namespace Project2D
 			//m_Bullet = new Projectile("../Images/Bullet_Small.png");
 
 			//Environmental objects
-			m_Wall = new Wall("../Images/Small_Metal_Box.png", 600, 500, 1, 1);
+			//m_Wall = new Wall("../Images/Small_Metal_Box.png", 600, 500, 1, 1);
 			m_WallArray = new Wall[m_WallCount];
 			
 			for(int i = 0; i < m_WallCount; i++)
@@ -49,10 +49,10 @@ namespace Project2D
 				//CollisionManager.AddObject(m_WallArray[i]);
 			}
 			
-			m_WallArray[0].SetPosition(new Vector2(300, 200));
-			m_WallArray[1].SetPosition(new Vector2(1400, 800));
-			m_WallArray[2].SetPosition(new Vector2(100, 600));
-			m_WallArray[3].SetPosition(new Vector2(100, 300));
+			m_WallArray[0].SetPosition(new Vector2(200, 200));
+			m_WallArray[1].SetPosition(new Vector2(800, 800));
+			m_WallArray[2].SetPosition(new Vector2(100, 700));
+			m_WallArray[3].SetPosition(new Vector2(1400, 100));
 
 			//Set parents and add physics objects
 			m_Tank1.SetParent(this);
@@ -81,14 +81,13 @@ namespace Project2D
 		{
 			for (int i = 0; i < m_WallCount; i++)
 			{
-				m_WallArray[i].Draw();
-				
+				m_WallArray[i].Draw();	
 			}
-
-			m_Wall.Draw();
 			m_Tank1.Draw();
-			//m_Bullet.Draw();
 			m_Turret.Draw();
+
+			//m_Wall.Draw();
+			//m_Bullet.Draw();
 		}
 	}
 }

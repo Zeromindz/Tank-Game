@@ -24,6 +24,8 @@ namespace Project2D
         private float deltaTime = 0.005f;
 		#endregion
 
+		//private Image m_BackgroundImage;
+		//private Texture2D m_BackgroundTexture;
 		private Level m_Level;
 
         public Game()
@@ -44,8 +46,8 @@ namespace Project2D
 			#endregion
 
 			//Initialize objects here
-			//logo = LoadImage("../Images/Car_Red.png");
-			//texture = LoadTextureFromImage(logo);
+			//m_BackgroundImage = LoadImage("../Images/Grass_Tile.png");
+			//m_BackgroundTexture = LoadTextureFromImage(m_BackgroundImage);
 
 			m_Level = new Level();
 
@@ -85,6 +87,8 @@ namespace Project2D
             BeginDrawing();
 
             ClearBackground(RLColor.WHITE);
+
+			//DrawTexture(m_BackgroundTexture, 100, 100, RLColor.WHITE);
 
 			//Draw game objects here
             DrawText(fps.ToString(), 10, 10, 14, RLColor.RED);
