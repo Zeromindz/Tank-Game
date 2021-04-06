@@ -30,6 +30,7 @@ namespace Project2D
 		protected Vector2 m_Max = new Vector2(0, 0);
 		protected float m_ColRadius = 0.0f;
 		public Vector2 m_PreviousPos;
+		public int m_ObjectTag = 0;
 
 		bool m_Alive;
 		// m1 - m4 - m7
@@ -45,31 +46,10 @@ namespace Project2D
 			//Set up bounds as image dimensions
 			m_Min.x = (float)-(m_Texture.width * 0.5);
 			m_Min.y = (float)-(m_Texture.height * 0.5);
-			//
 			m_Max.x = (float)(m_Texture.width * 0.5);
 			m_Max.y = (float)(m_Texture.height * 0.5);
 
-			
 			m_ColRadius = m_Image.height * 0.5f;
-
-		}
-
-		public void SetParent(GameObject _parent)
-		{
-			//remove from previous parent
-			if (m_Parent != null)
-			{
-				m_Parent.m_Children.Remove(this);
-			}
-
-			//set new parent
-			m_Parent = _parent;
-
-			//add to new parent
-			if(m_Parent != null)
-			{
-				_parent.m_Children.Add(this);
-			}
 		}
 
 		//We want the derived class to override this function
@@ -119,8 +99,14 @@ namespace Project2D
 			Renderer.DrawTexture(m_Texture, m_GlobalTransfrom, RLColor.WHITE.ToColor());
 			
 		}
-						 
-						  
+	  
+		public void Destroy()
+		{
+			SetAlive(false);
+
+			CollisionManager.RemoveObject(this);
+		}
+		
 		public virtual void OnCollision(GameObject _otherObj)
 		{
 			
@@ -134,6 +120,25 @@ namespace Project2D
 		public bool GetCollisionEnabled()
 		{
 			return m_EnabledCollision;
+		}
+
+
+		public void SetParent(GameObject _parent)
+		{
+			//remove from previous parent
+			if (m_Parent != null)
+			{
+				m_Parent.m_Children.Remove(this);
+			}
+
+			//set new parent
+			m_Parent = _parent;
+
+			//add to new parent
+			if(m_Parent != null)
+			{
+				_parent.m_Children.Add(this);
+			}
 		}
 
 		public Vector2 GetMin()
@@ -164,6 +169,11 @@ namespace Project2D
 		public void SetAlive(bool _alive)
 		{
 			m_Alive = _alive;
+		}
+
+		public int GetTag()
+		{
+			return m_ObjectTag;
 		}
 	}
 }

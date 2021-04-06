@@ -16,17 +16,20 @@ namespace Project2D
 		Vector2 m_MousePosition;
 		float m_TurretTurnSpeed = 5;
 		bool m_FiringGun = false;
-		
+		float m_AmmoCount = 10;
+
+		private Projectile m_Bullet = null;
 
 		public Turret(string _fileName) : base(_fileName)
 		{
+			m_Bullet = new Projectile("../Images/Bullet_Small.png");
+			//m_Bullet.SetPosition(currentGlobalPos);
 			SetAlive(true);
-
 		}
-
+		
 		public override void Update(float _deltatime)
 		{
-			
+
 			m_MousePosition = GetMousePosition().ToVector2();
 			currentGlobalPos = GetGlobalPosition();
 			targetDirection = m_MousePosition - currentGlobalPos;
@@ -43,11 +46,11 @@ namespace Project2D
 				rotation -= m_TurretTurnSpeed * _deltatime;
 			}
 
-			m_FiringGun = IsKeyDown(KeyboardKey.KEY_SPACE);
-			if (m_FiringGun)
+			if(IsKeyPressed(KeyboardKey.KEY_SPACE))
 			{
-				//Fire Gun
 				
+				FireGun();
+				CollisionManager.AddObject(m_Bullet);
 			}
 
 			Matrix3 rotationMatrix = new Matrix3();
@@ -55,15 +58,33 @@ namespace Project2D
 
 			m_LocalTransform = m_LocalTransform * rotationMatrix;
 
+			m_Bullet.Update(_deltatime);
+			m_Bullet.UpdateTransforms();
+
+			m_Bullet.SetRotation(rotation);
+
 			base.Update(_deltatime);
+		}
+
+		public void FireGun()
+		{
+			if (m_Bullet == null)
+			{
+				
+			}
+			
+			m_Bullet.SetPosition(currentGlobalPos);
+			m_Bullet.SetSpeed(0);
+
+			
 		}
 
 		public override void Draw()
 		{
+			base.Draw();
 			
 			DrawLine((int)currentGlobalPos.x, (int)currentGlobalPos.y, (int)m_MousePosition.x, (int)m_MousePosition.y, RLColor.RED);
-			
-			base.Draw();
+			m_Bullet.Draw();
 		}
 
 		

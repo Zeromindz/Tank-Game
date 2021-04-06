@@ -21,9 +21,11 @@ namespace Project2D
 
 		public Wall(string _fileName, float _startingPosX, float _startingPosY, float _height, float _width) : base(_fileName)
 		{
-			//m_CurrentPosition = GetGlobalPosition();
+			m_Position = GetGlobalPosition();
 			SetAlive(true);
 			m_EnabledCollision = true;
+
+			m_ObjectTag = 2;
 
 			//starting position
 			m_LocalTransform.m7 = _startingPosX;
@@ -33,7 +35,7 @@ namespace Project2D
 			m_Width = _width;
 
 			//rec = new Rectangle {x = _startingPosX, y = _startingPosY, height = _height, width = _width};
-			
+			CollisionManager.AddObject(this);
 		}
 
 		public override void Update(float _deltatime)
@@ -48,12 +50,22 @@ namespace Project2D
 			base.OnCollision(_otherObj);
 		}
 
+		public void SetPosition(Vector2 _position)
+		{
+			m_LocalTransform.m7 = _position.x;
+			m_LocalTransform.m8 = _position.y;
+		}
+
 		public override void Draw()
 		{
 			//DrawRectangleRec(rec, Fade(RLColor.GREEN, 0.5f));
 			
 			base.Draw();
-			DrawCircleV(new RLVector2 { x = m_LocalTransform.m7, y = m_LocalTransform.m8 }, m_ColRadius, RLColor.BLUE);
+			
+			if(GetAlive() == true)
+				DrawCircleV(new RLVector2 { x = m_LocalTransform.m7, y = m_LocalTransform.m8 }, m_ColRadius, RLColor.BLUE);
+			
+
 		}
 	}
 }

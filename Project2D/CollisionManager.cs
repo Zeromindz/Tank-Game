@@ -16,27 +16,44 @@ namespace Project2D
 			m_ObjectList.Add(_obj);
 		}
 
+		public static void RemoveObject(GameObject _obj)
+		{
+			m_ObjectList.Remove(_obj);
+		}
+
 		public static void CheckCollision()
 		{
-			foreach(GameObject obj1 in m_ObjectList)
+			foreach(GameObject obj1 in m_ObjectList.ToList())
 			{
-				foreach (GameObject obj2 in m_ObjectList)
+				foreach (GameObject obj2 in m_ObjectList.ToList())
 				{
-					//Dont check if objects are the same
+					// ----------------------------------------------------------------
+					// Dont check if objects are the same
+					// Dont check if the tank and projectile is colliding 
+					// Tags: 
+					// 0 = default
+					// 1 = Tank/Projectile
+					// 2 = Walls
+					// ----------------------------------------------------------------
 					if (obj1 == obj2)
 						continue;
+					if (obj1.GetTag() == obj2.GetTag())
+					{
+						//Console.WriteLine(obj1 + " and " + obj2 + " colliding");
+						continue;
+					}
 
+					// ----------------------------------------------------------------
+					// Calculate circle collision
+					// ----------------------------------------------------------------
 					Vector2 diff = obj1.GetGlobalPosition() - obj2.GetGlobalPosition();
 					float dist = diff.Magnitude();
 					float combinedRadius = obj1.GetRadius() + obj2.GetRadius();
-
-					//Console.WriteLine("distance = " + dist);
 					
-					//Test Sphere collision here
+					//Test circle collision here
 					if (dist < combinedRadius)
 					{
 						//resolve collision
-						//vector
 						obj1.OnCollision(obj2);
 
 						//Console.WriteLine("Obj " + obj1 + " colliding with " + obj2);
@@ -53,8 +70,6 @@ namespace Project2D
 							
 							obj1.OnCollision(obj2);
 
-							
-							
 							return;
 						}
 

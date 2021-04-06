@@ -13,7 +13,13 @@ namespace Project2D
 	{
 		private Tank m_Tank1 = null;
 		private Turret m_Turret = null;
-		private Wall m_Wall = null;
+		private Wall m_Wall;
+		private Wall[] m_WallArray;
+
+		int m_WallCount = 4;
+		float m_MaxAmmo = 10;
+		//private Projectile m_Bullet = null;
+		
 
 		public Level() : base("")
 		{
@@ -22,8 +28,6 @@ namespace Project2D
 			//Create new objects
 			InitObjects();
 
-			
-			
 		}
 
 		public void InitObjects()
@@ -31,19 +35,32 @@ namespace Project2D
 			//Player objects
 			m_Tank1 = new Tank("../Images/Car_v3.png", GetScreenWidth() / 2, GetScreenHeight() / 2);
 			m_Turret = new Turret("../Images/Gun_v2.png");
+			//m_Bullet = new Projectile("../Images/Bullet_Small.png");
 
 			//Environmental objects
-			m_Wall = new Wall("../Images/Small_Metal_Box.png", 600, 200, 1, 1);
+			m_Wall = new Wall("../Images/Small_Metal_Box.png", 600, 500, 1, 1);
+			m_WallArray = new Wall[m_WallCount];
+			
+			for(int i = 0; i < m_WallCount; i++)
+			{
+				m_WallArray[i] = new Wall("../Images/Small_Metal_Box.png", 600, 500, 1, 1);
+				m_WallArray[i].SetParent(this);
+				
+				//CollisionManager.AddObject(m_WallArray[i]);
+			}
+			
+			m_WallArray[0].SetPosition(new Vector2(300, 200));
+			m_WallArray[1].SetPosition(new Vector2(1400, 800));
+			m_WallArray[2].SetPosition(new Vector2(100, 600));
+			m_WallArray[3].SetPosition(new Vector2(100, 300));
 
 			//Set parents and add physics objects
 			m_Tank1.SetParent(this);
 			m_Turret.SetParent(m_Tank1);
-			m_Wall.SetParent(this);
+			//m_Bullet.SetParent(m_Turret);
 
-			CollisionManager.AddObject(m_Tank1);
-			CollisionManager.AddObject(m_Wall);
+			//m_Wall.SetParent(this);
 		}
-
 
 		public override void Update(float _deltatime)
 		{
@@ -54,15 +71,23 @@ namespace Project2D
 			m_Turret.Update(_deltatime);
 			m_Turret.UpdateTransforms();
 
-			m_Wall.Update(_deltatime);
-			m_Wall.UpdateTransforms();
+			//m_Bullet.Update(_deltatime);
+			//m_Bullet.UpdateTransforms();
+
 			base.Update(_deltatime);
 		}
 
 		public override void Draw()
 		{
+			for (int i = 0; i < m_WallCount; i++)
+			{
+				m_WallArray[i].Draw();
+				
+			}
+
 			m_Wall.Draw();
 			m_Tank1.Draw();
+			//m_Bullet.Draw();
 			m_Turret.Draw();
 		}
 	}
