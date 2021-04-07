@@ -16,6 +16,8 @@ namespace Project2D
 		private Wall m_Wall;
 		private Wall[] m_WallArray;
 
+
+
 		int m_WallCount = 4;
 		float m_MaxAmmo = 10;
 		//private Projectile m_Bullet = null;

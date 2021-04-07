@@ -51,7 +51,7 @@ namespace Project2D
 			// Tank Movement
 			// Set IsAccellerating to true with w and s key presses
 			// Update y velocity via W+S input
-			// Rotate turret via A+D input
+			// Rotate tank via A+D input
 			// If not accelerating and has velocity > 0, lerp from current y velocity to 0 over deltatime (Deceleration)
 			// Cap velocity at max by multiplying y velocity by (max / current)
 			//---------------------------------------------------------------------------------
